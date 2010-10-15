@@ -103,7 +103,7 @@
 			<li>太多的Package，导致下载时间延长</li>
 		</ul>
 		</div>
-		<div class="space"><a href="../vidoe/tcp-packets.html">一次请求图像的TCP连接上的packets录像</a></div>
+		<div class="space"><a href="../video/tcp-packets.html">一次请求图像的TCP连接上的packets录像</a></div>
 	</div>
 
 	<div class="slide">
@@ -219,7 +219,7 @@
 	<div class="slide">
 		<h1>浏览器处理页面时间</h1>
 		<div class="center">
-			<img src="imgs/performance_ie8.png">
+			<img src="../imgs/performance_ie8.png">
 		</div>
 		<div class="space">大多数的时间在处理Layout(Reflow)和Rendering上。</div>
 	</div>
@@ -233,7 +233,7 @@
 			<li>计算Element的位置，高度，宽度。</li>
 			</ul>
 		</div>
-		<div class="center space"><a href="../vidoe/reflow.html">实际的Reflow录像</a></div>
+		<div class="center space"><a href="../video/reflow.html">实际的Reflow录像</a></div>
 	</div>
 	
 	<div class="slide">
@@ -275,7 +275,7 @@
 	<div class="slide">
 		<h1>没有使用IO的flush</h1>
 		<div class="center">
-			<img src="imgs/4483250338_63d81edf62.jpg">
+			<img src="../imgs/4483250338_63d81edf62.jpg">
 		</div>	
 		<div class="center space">实际例子：<a href="http://www.flickr.com/photos/86636997@N00/4498968211/in/photostream/">Flicker</a></div>
 		<div class="space">因为有Content-Length，浏览器必须等到全部的内容下载完才处理资源。</div>
@@ -284,7 +284,7 @@
 	<div class="slide">
 		<h1>使用IO的flush</h1>
 		<div class="center">
-			<img src="imgs/4483250364_4c15159713.jpg">
+			<img src="../imgs/4483250364_4c15159713.jpg">
 		</div>
 		<div class="center space">实际例子：<a href="http://www.flickr.com/photos/86636997@N00/4499603978/in/photostream/">Flicker录像</a></div>
 		<div class="space">没有Content-Length，使用Transfer-Encoding:chunked。当收到一个Chunck后马上处理生成html，那么Javascript可采用这个技术呢？</div>
