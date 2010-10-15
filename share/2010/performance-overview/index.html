@@ -496,7 +496,7 @@
 
 	<div class="slide">
 		<h1>前端性能监控</h1>
-		<div class="point" style="margin-top:3em;">
+		<div class="point">
 		  <ul>
 			<li>使用beacon(自己写脚本代码)</li>
 			<li>使用ipfw + Xvfb + ShowSlow + YSlow + PageSpeed(服务器上监控)</li>
@@ -507,7 +507,7 @@
 
 	<div class="slide">
 		<h1>配置监控</h1> 
-		<div class="point" style="margin-top:3em;">
+		<div class="point">
 		  <ul>
 			<li>ipfw:控制请求的流量,丢包率来模拟普通用户网速</li>
 			<li>Xvfb:实现对X-server的模拟,渲染图形进行缓存</li>
@@ -518,21 +518,39 @@
 		</div>
 	</div> 
  
+  <div class="slide">
+		<h1>配置监控</h1> 
+		<div class="point">
+		  <ul>
+			<li>ipfw:控制请求的流量,丢包率来模拟普通用户网速</li>
+			<li>Xvfb:实现对X-server的模拟,渲染图形进行缓存</li>
+			<li>ShowSlow:性能查看工具</li>
+			<li>YSlow和PageSpeed:Firefox插件,监控页面性能</li>
+		  </ul>
+		  <div class="space">整合以上工具,可实现自动化监控前端页面性能</div>
+		</div>
+	</div> 
+	
+	<div class="slide">
+		<div class="qa">
+		  DEMO
+		</div>
+	</div> 
+
 	<div class="slide">
 		<h1>找到前端性能瓶颈</h1> 
-		<div class="point" style="margin-top:3em;">
+		<div class="point">
 		  <ul>
 			<li>Server log的分析</li>
 			<li>理解网络的请求图形</li>
 			<li>理解YSlow、Pagespeed和dyantrace的性能分析报告</li>
-			<li>找到瓶颈所在</li>
+			<li>找到问题的关键所在</li>
 			<li>评估和实施解决方案</li>
 			<li>继续推进前端性能</li>
 		  </ul>
 		</div>
-	</div> 
-
-
+	</div
+	
 	<div class="slide">
 		<h1>总结</h1>
 		<div class="point">
