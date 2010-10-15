@@ -1,0 +1,2 @@
+java -jar cssembed-0.3.2.jar --mhtml --mhtmlroot http://shihua.googlecode.com/svn/trunck/labs/2010/cssembed/ --charset utf-8  -o ie.css o.css
+java -jar cssembed-0.3.2.jar --charset utf-8  -o css.css o.css

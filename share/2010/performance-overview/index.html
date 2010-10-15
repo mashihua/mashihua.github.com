@@ -1,0 +1,577 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>前端性能</title>
+	<meta name="author" content="Shihua Ma" />
+	<meta name="email" content="mashihua@gmail.com" />
+	<meta name="presdate" content="2010-09-28" />
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script> 
+	<script type="text/javascript" src="jquery.history.js"></script> 
+	<script type="text/javascript" src="slippy-0.9.0.js"></script> 
+	<link type="text/css" rel="stylesheet" href="slippy-0.9.0.css"/> 
+	<link type="text/css" rel="stylesheet" href="slippy-dark.css"/>
+	<script type="text/javascript" src="../highlighter/shCore.js"></script> 
+	<script type="text/javascript" src="../highlighter/shBrushJScript.js"></script> 
+	<link type="text/css" rel="stylesheet" href="../highlighter/shCore.css"/> 
+	<link type="text/css" rel="stylesheet" href="../highlighter/shThemeDefault.css"/> 
+	<script type="text/javascript"> 
+		$(function() {
+			$(".slide").slippy();
+			SyntaxHighlighter.all();
+		});
+	</script> 
+	<style type="text/css"> 
+		html,body { background:#555;color:#333; }
+		h1 { color:#060; }
+		a:link { color: #336699; text-decoration: none; }
+		a:visited { color: #666699; text-decoration: none; }
+		a:hover { color: #FFFFFF; text-decoration: none; background: #003399; }
+		a:active { color: #FFFFFF; text-decoration: none; background: #FF9933; }
+		.slide { background-color:#fff; }
+		.footer { color:#666;font-size:14px;background-color:#e9f4e9; }
+		.footer a { font-size:14px; }
+		ul{margin-top:2em;}
+		li{font-size:120%;}
+		h2 { clear:both;color:#00acda; }
+		caption{font-size:120%;font-weight:bold;padding:0.5em 0;}
+		
+		/* cover */
+		.cover {-moz-border-radius:0;-webkit-border-radius: 0;border-radius: 0;border: .1em solid #000;background: #000 url(../imgs/2507800943.jpg) no-repeat center center;}
+		.cover p { text-align:center;font-size:16px; padding:0.5em 0;}
+		.cover em { color:#fff; }
+		.cover .footer { visibility:hidden; }
+		.cover .title1 { margin-top:44%;padding:10px 0; background:rgba(255, 255, 255, 0.4); }
+		.cover .slideContent { padding:0; }
+
+		/* content */
+		.center { text-align:center; }
+		.list li { font-size: 16px; }
+		.point li { margin-bottom:1em; }
+		.code { font-size:14px; }
+		.slide.nochrome { border: 0;background: 0;}
+		.space{padding:1em 0;}
+		.center table{margin:0 25%}
+		.center td{padding:0.3em 0;}
+		/*q&a*/
+		.qa{text-align:center;font-size:300%;width:100%;padding-top:200px;}
+	</style>
+</head>
+<body>
+
+	<div class="slide cover">
+	  <div class="title1">
+		<h1>前端性能</h1>
+		<p>马士华 <br> @mashihua | f2eskills.com</p>
+	  </div>
+	</div>
+
+	<div class="slide">
+		<h1>主题</h1>
+		<div class="point">
+		  <ul>
+		  <li>前端性能技术体系</li>
+		  <li>前端性能工作流</li>
+		  </ul>
+		</div>
+	</div>
+
+	<div class="slide">
+		<h1>前端性能技术体系</h1>
+		<div class="point">
+		<img src="../imgs/performance-overview.png" alt="" width="100%" />
+		</div>
+	</div>
+ 
+	<div class="slide">
+		<h1>Server</h1>
+		<div class="point">
+		<ul>
+			<li>解决那些问题？</li>
+			<li>采用什么方法？</li>
+			<li>带来的好处和坏处</li>
+		</ul>
+		</div>
+	</div>
+
+	<div class="slide">
+		<h1>解决那些问题？</h1>
+		<div class="point">
+		<ul>
+			<li>TCP Slow Start</li>
+			<li>RTT(Round-Trip Time)</li>
+			<li>太多的Package，导致下载时间延长</li>
+		</ul>
+		</div>
+		<div class="space"><a href="../vidoe/tcp-packets.html">一次请求图像的TCP连接上的packets录像</a></div>
+	</div>
+
+	<div class="slide">
+		<h1>采用的方法</h1>
+		<div class="point">
+		  <ul>
+			<li>TCP Keep-Alive，使用HTTP1.1。</li>
+			<li>使用CDN，减少RTT和优化TCP连接。</li>
+			<li>Gzip压缩文本(减少大约70%)，优化图像文件(占流量的52%和请求数的71%)和Flash资源。</li>
+			<li>合并资源(包括CSS Sprites,Data URL)。</li>
+		  </ul>
+		</div>
+	</div>
+
+	<div class="slide">
+		<h1>带来的问题</h1>
+		<div class="point">
+		  <ul>
+			<li>TCP Keep-Alive，导致服务端连接数达到顶峰值。</li>
+			<li>使用CDN，带来成本问题。</li>
+			<li>Gzip压缩，带来服务器CPU资源的压力。</li>
+			<li>合并资源，合并那些资源。手工还是自动。</li>
+		  </ul>
+		</div>
+	  </div>
+
+	
+	<div class="slide">
+		<h1>Browser</h1>
+		<div class="point">
+		<ul>			
+			<li>请求资源下载</li>
+			<li>处理页面渲染</li>
+			<li>单线程机制。Javascript，UI使用同一个线程队列</li>
+		</ul>
+		</div>
+	</div>
+
+	<div class="slide">
+		<h1>请求资源下载</h1>
+		<div class="point">
+		<ul>
+			<li>浏览器TCP连接数限制</li>
+			<li>数据缓存</li>
+			<li>用户感知的速度</li>
+			<li>延迟加载</li>
+		</ul>
+		</div>
+	</div>
+
+	<div class="slide">
+		<h1>浏览器TCP连接数限制</h1>
+		<div class="center">
+			<table width="50%">
+			<caption>Connections per server</caption>
+			<tbody>
+			<tr>
+			<th>Browser</th>
+			<th>HTTP/1.1</th>
+			<th>HTTP/1.0</th>
+			</tr>
+			<tr>
+			<td>IE 6,7</td>
+			<td>2</td>
+			<td>4</td>
+			</tr>
+			<tr>
+			<td>IE 8</td>
+			<td>6</td>
+			<td>6</td>
+			</tr>
+			<tr>
+			<td>Firefox 2</td>
+			<td>2</td>
+			<td>8</td>
+			</tr>
+			<tr>
+			<td>Firefox 3</td>
+			<td>6</td>
+			<td>6</td>
+			</tr>
+			<tr>
+			<td>Safari 3,4</td>
+			<td>4</td>
+			<td>4</td>
+			</tr>
+			<tr>
+			<td>Chrome 1,2</td>
+			<td>6</td>
+			<td>6</td>
+			</tr>
+			<tr>
+			<td>Opera 9,10</td>
+			<td>4</td>
+			<td>4</td>
+			</tr>
+			</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="slide">
+    <h1>数据缓存</h1>
+    <div class="point">
+		<ul>
+			<li>Expires头</li>
+			<li>Cache-Control头</li>
+			<li>E-Tag带来的坏味道</li>
+		</ul>
+	</div>
+    </div>
+
+	<div class="slide">
+		<h1>浏览器处理页面时间</h1>
+		<div class="center">
+			<img src="imgs/performance_ie8.png">
+		</div>
+		<div class="space">大多数的时间在处理Layout(Reflow)和Rendering上。</div>
+	</div>
+
+	<div class="slide">
+		<h1>Browser的Layout处理</h1>
+		<div class="point">
+			<ul>
+			<li>处理CSS样式，生成链表。链表头部在CSS选择器的右边，而非视觉上的左边。</li>
+			<li>当遇见一个Element，根据CSS的权重进行层叠。</li>
+			<li>计算Element的位置，高度，宽度。</li>
+			</ul>
+		</div>
+		<div class="center space"><a href="../vidoe/reflow.html">实际的Reflow录像</a></div>
+	</div>
+	
+	<div class="slide">
+		<h1>什么时候发生Layout</h1>
+		<div class="point">
+			<ul>
+			<li>浏览器打开页面</li>
+			<li>添加子节点</li>
+			<li>请求获取布局信息</li>
+			<li>改变Element容器的大小</li>		
+			<li>调整窗口大小</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="slide">
+		<h1>用户感知时间</h1>
+		<div class="point">
+			<ul>
+			<li>等待0.1秒，用户感觉就是动作立即发生的。</li>
+			<li>等待1秒，感觉到短暂的延迟</li>
+			<li>等待10秒，情绪将达到极限，可能要离开了。</li>
+			</ul>
+		</div>
+		<div class="space">加快用户感知的速度</div>
+	</div>
+	
+	<div class="slide">
+		<h1>加快用户感知的速度</h1>
+		<div class="point">
+			<ul>
+			<li>渐进显示。使用Transfer-Encoding:chunked</li>
+			<li>延迟加载,用户需要时加载。例子：淘宝首页，详细页面。</li>
+			<li>先加载，在用户还没离开此页面是加载用户下次浏览的资源，例子：google首页。</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="slide">
+		<h1>没有使用IO的flush</h1>
+		<div class="center">
+			<img src="imgs/4483250338_63d81edf62.jpg">
+		</div>	
+		<div class="center space">实际例子：<a href="http://www.flickr.com/photos/86636997@N00/4498968211/in/photostream/">Flicker</a></div>
+		<div class="space">因为有Content-Length，浏览器必须等到全部的内容下载完才处理资源。</div>
+	</div>
+	
+	<div class="slide">
+		<h1>使用IO的flush</h1>
+		<div class="center">
+			<img src="imgs/4483250364_4c15159713.jpg">
+		</div>
+		<div class="center space">实际例子：<a href="http://www.flickr.com/photos/86636997@N00/4499603978/in/photostream/">Flicker录像</a></div>
+		<div class="space">没有Content-Length，使用Transfer-Encoding:chunked。当收到一个Chunck后马上处理生成html，那么Javascript可采用这个技术呢？</div>
+	</div>
+	
+	<div class="slide">
+		<h1>手动还是自动flush</h1>
+		<div class="point">
+			<ul>
+				<li>google搜索结果也采用手动，3个区块</li>
+				<li>Taobao首页采用自动，第一块在css这儿。</li>
+			</ul>
+		</div>
+		<div class="center space"><a href="http://mashihua.github.com/labs/2010/chuncked">Google和Taobao的实际数据</a></div>
+	</div>
+
+	<div class="slide">
+		<h1>HTML,CSS,Javascript</h1>
+		<div class="point">
+			<ul>
+				<li>HTML的代码</li>
+				<li>CSS问题</li>
+				<li>Javascript问题</li>
+				<li>沉重的DOM操作</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="slide">
+		<h1>HTML代码</h1>
+		<div class="point">
+			<ul>
+				<li>使用外部的CSS和Javascript。</li>
+				<li>减少不必要的Element。</li>
+				<li>减少IFrame的使用</li>
+				<li>把CSS放在HEAD Element里</li>
+				<li>把Javascript放在页面底部</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="slide">
+		<h1>CSS问题</h1>
+		<div class="point">
+			<ul>
+				<li>尽量不要使用@import</li>
+				<li>优化CSS选择器</li>
+				<li>面向OO的CSS</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="slide">
+		<h1>Javascript问题</h1>
+		<div class="point">
+			<ul>
+				<li>采用同步加载Javascript，不要阻塞页面资源下载。</li>
+				<li>避免多次的Layout。</li>
+				<li>缓存DOM访问的数据，避免性能低下的DOM操作。</li>
+				<li>减少Event时间监听的Element</li>
+			</ul>
+		</div>
+	</div>
+	<div class="slide">
+		<h1>同步加载Javascript，避免阻塞资源下载</h1>
+		<div class="point">
+			<pre class="brush:javascript">
+				var script = document.createElement("script")； 
+				script.type = "text/javascript";
+				script.src = 'some url';
+				document.getElementsByTagName("head")[0].appendChild(script)；
+			</pre>
+			<pre class="brush:javascript">
+				var xhr = getXhr();
+				xhr.open('get','some url',true);
+				xhr.send();
+				xhr.onreadystatechange = function(){ 
+				if (xhr.readyState == 4)
+					eval(xhr.responseText);
+				}
+			</pre>
+			<ul>
+				<li>insert script，好处：跨域，callback，坏处：无法顺序执行。</li>
+				<li>XHR，好处：顺序执行，callback，坏处：现阶段无法跨域。</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="slide">
+		<h1>避免多次的Layout</h1>
+		<div class="point">
+			<pre class="brush:javascript">
+				someElement.style.fontSize = "1.2em";
+				if(someElement.offsetHeight>80){ /* ... */ }
+				someElement.style.paddingLeft = "10px";
+				if(someElement.offsetWidth>80){ /* ... */ }
+			</pre>
+			<pre class="brush:javascript">
+				someElement.style.fontSize = "1.2em";
+				someElement.style.paddingLeft = "10px";
+				if(someElement.offsetHeight>100){ /* ... */ }
+				if(someElement.offsetWidth>100){ /* ... */ }
+			</pre>
+			<ul>
+				<li>上面的执行两次Layout计算。</li>
+				<li>下面的执行一次Layout计算</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="slide">
+		<h1>避免多次的Layout</h1>
+		<div class="point">
+			<pre class="brush:javascript">
+				var items = document.getElementById("items"), i, item; 
+				for (i=0; i < 8; i++){ 
+					item = document.createElement("div"); 
+					item.innerHTML = "Item " + i; 
+					items.appendChild(item); 			
+				} 
+			</pre>
+			<pre class="brush:javascript">
+				var items = document.document.getElementById("items"), fragment = document.createDocumentFragment(), i, item; 
+				for (i=0; i < 10; i++){ 
+					item = document.createElement("div"); 
+					item.innerHTML = "Item " + i; 
+					fragment.appendChild(item); 
+				} 
+				items.appendChild(fragment); 
+			</pre>
+			<ul>
+				<li>上面的执行八次Layout计算。</li>
+				<li>下面的执行一次Layout计算</li>
+			</ul>
+		</div>
+		</div>
+
+	<div class="slide">
+		<h1>DOM</h1>
+		<div class="point">
+			<pre class="brush:javascript">
+				someElement.style.fontSize = "1.2em";
+				someElement.style.paddingLeft = "10px";//Reflow! 
+				someElement.style.color = "grey";//Repaint! 
+			</pre>
+			<pre class="brush:javascript">
+				var style = someElement.style;
+				style.fontSize = "1.2em";
+				style.paddingLeft = "10px"; //Reflow!
+				style.color = "grey"; //Repaint! 
+			</pre>
+			<pre class="brush:javascript">
+				var styleText = "font-size:1.2em;padding-left:10px;color:grey;";
+				someElement.style.cssText = styleText; //Reflow!
+			</pre>
+			<div class="space">缓存style属性，避免重复的Element->style属性值访问</div>
+		</div>
+	</div>
+
+	<div class="slide">
+		<h1>缓存数据</h1>
+		<div class="point">
+			<ul>
+				<li>offsetTop, offsetLeft, offsetWidth, offsetHeight</li>
+				<li>scrollTop, scrollLeft, scrollWidth, scrollHeight </li>
+				<li>clientTop, clientLeft, clientWidth, clientHeight</li>
+				<li>循环中的数组长度，HTMLCollectList的长度</li>
+			</ul>		
+		</div>
+	</div>
+
+	<div class="slide">
+		<h1>减少Event时间监听的Element</h1>
+		<div class="point">
+			<pre class="brush:javascript">
+				var links  = parent.getElementsByTagName(a);
+				for(var i = 0, len = links.length ; i < len;){
+					event.addEventListener(links[i++], 'click' ,function(e){
+						var ele = e.target || e.srcElement;
+						alert(ele.href);
+					});
+				}
+			</pre>
+			<pre class="brush:javascript">
+				event.addEventListener(parent, 'click' ,function(e){
+						var ele = e.target || e.srcElement;
+						if(ele.tagName.toLowerCase() === 'a')
+							alert(node.href);
+				});
+			</pre>
+			<div class="space">太多的事件监听花费太多的内存消耗，下面代码只有一个监听事件。</div>
+		</div>
+	</div>
+		
+		
+	<div class="slide">
+		<h1>工作流程</h1> 
+		<div class="center">
+			<pre class="brush:javascript">
+			while(true){
+				doResearch();
+				doPerformanceJob();
+				doEvaluation();
+			}
+			</pre>
+		  <p class="space">就像你绕着操场跑一样，跑完一圈回到起点接着再跑。</p>
+		</div>
+	</div>
+
+	<div class="slide">
+		<h1>前端性能监控</h1>
+		<div class="point" style="margin-top:3em;">
+		  <ul>
+			<li>使用beacon(自己写脚本代码)</li>
+			<li>使用ipfw + Xvfb + ShowSlow + YSlow + PageSpeed(服务器上监控)</li>
+		  </ul>
+		</div>
+	</div>
+
+
+	<div class="slide">
+		<h1>配置监控</h1> 
+		<div class="point" style="margin-top:3em;">
+		  <ul>
+			<li>ipfw:控制请求的流量,丢包率来模拟普通用户网速</li>
+			<li>Xvfb:实现对X-server的模拟,渲染图形进行缓存</li>
+			<li>ShowSlow:性能查看工具</li>
+			<li>YSlow和PageSpeed:Firefox插件,监控页面性能</li>
+		  </ul>
+		  <div class="space">整合以上工具,可实现自动化监控前端页面性能</div>
+		</div>
+	</div> 
+ 
+	<div class="slide">
+		<h1>找到前端性能瓶颈</h1> 
+		<div class="point" style="margin-top:3em;">
+		  <ul>
+			<li>Server log的分析</li>
+			<li>理解网络的请求图形</li>
+			<li>理解YSlow、Pagespeed和dyantrace的性能分析报告</li>
+			<li>找到瓶颈所在</li>
+			<li>评估和实施解决方案</li>
+			<li>继续推进前端性能</li>
+		  </ul>
+		</div>
+	</div> 
+
+
+	<div class="slide">
+		<h1>总结</h1>
+		<div class="point">
+		  <ul>
+			<li>前端性能结构体系的构成，理解它有何意义？</li>
+			<li>Server、Browser和Coding其实不是分开的个体，放在一起才能总览全局</li>
+			<li>TCP，HTTP协议是基础</li>
+			<li>理解Browser能更好的把控代码</li>
+			<li>性能工作流程</li>
+			<li>前端工作还有更多：安全、测试、工具、模块、协同、代码维护......</li>
+		  </ul>
+		</div>
+	</div>
+
+	
+	<div class="slide">
+		<h1>CC</h1>
+		<ul>
+		<li>http://www.flickr.com/photos/falxone/2507800943/</li>
+		</ul>
+	</div>
+
+	<div class="slide">
+		<p class="qa">Q&amp;A</p>
+	</div>
+
+	<div class="footer"> 
+		<span class="left">前端性能</span> 
+		<span class="right"> <a href="http://twitter.com/mashihua">@mashihua</a> | <a href="http://www.f2eskills.com">f2eskills.com</a></span> 
+	</div>
+
+	<!--div class="layout" name="default">
+		<content></content>
+		<div class="footer"> 
+		</div>
+	</div>
+
+	<div class="layout nochrome" name="alt">
+		<content></content>
+	</div-->
+    </body>
+</html>
