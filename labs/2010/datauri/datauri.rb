@@ -21,8 +21,8 @@ if File::directory?( path )
 			h.each {|key,css|
 				name = key.eql?('origin') ? '' : key + "-"
 				#base64 string
-				data = [File.open("#{path}#{name}#{entry}", "rb") {|io| io.read}].pack("m").gsub(/[\r\n]/,'')
-				h.store(key,css << "#{selector} {background-image: url('data:image/png;base64,#{data}');}\n");
+				data = [File.open("#{path}#{name}#{entry}", "rb").read].pack("m").gsub(/[\r\n]/,'')
+				h.store(key,css << ".#{selector} {background-image: url('data:image/png;base64,#{data}');}\n");
 			}
 		end
 	}
