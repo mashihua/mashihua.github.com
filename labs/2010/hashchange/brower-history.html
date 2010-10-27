@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+<title>Test with brower store history when hashchange event fired</title>
+<script>
+
+window.onhashchange = function(){
+	var obj = document.getElementById('result')
+	obj.innerHTML = "window.history.length = "+ window.history.length
+}
+
+function testSupport(){
+	var i = 1, delay = 25, func ;
+	setTimeout(function func(){
+		location.hash = "test-" + i;
+		if(i++ < 5){
+			setTimeout(func,delay);
+		}
+	},delay);
+
+}
+window.onload = testSupport
+</script>
+</head>
+<body>
+<div><a href="./">Back</a></div>
+<div>User Agent:<br /><script>document.write(navigator.userAgent)</script></div>
+<div style="margin-top:30px;">If this browser store history when hach changed,The window.history.length will change.</div>
+<div id="result">
+window.history.length = 0
+</div>

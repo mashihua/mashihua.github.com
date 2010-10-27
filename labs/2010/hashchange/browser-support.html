@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+<title>Brower support hashchange evant test</title>
+<script>
+function testSupport(){
+	window.onhashchange = function(){
+		if(location.hash === "#test"){
+			document.getElementById('result').innerHTML = "This browser supports hashchange event!"
+		}
+	}
+	setTimeout(function(){
+		location.hash = "test";
+	},25);
+}
+window.onload = testSupport
+</script>
+</head>
+<body>
+<div>User Agent:<br /><script>document.write(navigator.userAgent)</script></div>
+<div id="result" style="margin-top:30px;">
+If this browser supports hashchange event this content will chang when window.onload event fired.
+</div>

@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+<title>Brower support hashchange event test when load page</title>
+<script>
+
+window.onhashchange = function(){
+		if(location.hash === "#test"){
+			document.getElementById('result').innerHTML = "This browser supports hashchange event when load page with hash fragment!"
+		}
+}
+
+</script>
+</head>
+<body>
+<div>User Agent:<br /><script>document.write(navigator.userAgent)</script></div>
+<div id="result" style="margin-top:30px;">
+Browser doesn't fire window.onhashchange event when load page with  hash fragment in normally .
+</div>
