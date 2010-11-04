@@ -58,7 +58,7 @@ header[20..21]="00"
 data[18..19]=local_mix
 
 #MAGIC HEADER
-head = ";background-image:url(data:image/gif;base64;pzd,"
+head = ";msh;background-image:url(data:image/gif;base64,"
 
 #FOR DEBUG
 #require 'base64'

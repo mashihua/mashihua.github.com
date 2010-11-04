@@ -33,7 +33,7 @@ end
 data=orig[/.{8}49444154.*/]
 
 #MAGIC HEADER
-header = ";background-image:url(data:image/png;base64;pzd,"
+header = ";msh;background-image:url(data:image/png;base64,"
 #MAGIC COMMENT
 comment =  Base64.decode64(header)
 
@@ -53,10 +53,10 @@ crc = Zlib.crc32((text + thunk).to_a.pack("H*"), 0).to_s(16)
 var = ihdr + "00000059" + text + thunk + crc +plte + trns+data
 
 #FOR DEBUG
-#File.open('out.png','wb'){|f| f.write(var.to_a.pack("H*"))}
+File.open('out.png','wb'){|f| f.write(var.to_a.pack("H*"))}
 
 #ALL DATA IN ONE STRING
-base = [var.to_a.pack("H*")].pack("m").gsub(/backgroundimageurldataimage\/pngbase64pzd/,header)
+base = [var.to_a.pack("H*")].pack("m").gsub(/mshbackgroundimageurldataimage\/pngbase64/,header)
 
 # JUST PASTE TEXT FROM THIS FILE TO CSS
 File.open('out_png64','w'){|s| s.write("#{base.gsub(/\n/,'')}\);")}
