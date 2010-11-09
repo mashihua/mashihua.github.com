@@ -1,0 +1,227 @@
+;*********************************************************************
+;赵利民 
+;smail.nju.edu.cn
+;函数功能：计算箱结构体系的方向辐射亮度，假设箱体结构相同,间距相同,表面漫射,垂直纸面方向具有无限长度
+;输入参数：
+;          Alpha_S: 太阳天顶角,单位：弧度（sr）,Float型;
+;          Alphav: 观测天顶角,单位：弧度（sr）,Float型;
+;          a:箱体宽度,单位：米（m）,Float型;
+;          h:箱体高度,单位：米（m）,Float型;
+;          c:箱体间距,单位：米（m）,Float型;
+;          ea:箱顶发射率,无量纲,Float型;
+;          eh:箱身发射率,无量纲,Float型;
+;          ec:地面发射率,无量纲,Float型;
+;          Ta:箱顶温度,单位：开尔文（K）, Float型;
+;          Th:箱体光照部分温度,单位：开尔文（K）, Float型;
+;          Tc:地面光照部分温度,单位：开尔文（K）, Float型;
+;          Tsh:箱体阴影部分温度,单位：开尔文（K）, Float型;
+;          Tsc:地面阴影部分温度,单位：开尔文（K）, Float型;
+;
+
+;输出参数：
+;          DBT: 辐射亮度温度,单位：开尔文（K）,Float型;
+;          
+;IDL 7.1编译测试通过
+;
+;修改历史:
+;   2010-06-03版本: 太阳热辐射经计算为微小量，删除
+;   2010-06-03版本: 加入太阳热辐射影响
+;   2010-05-28版本: 程序编译错误
+;待完善功能:
+;   表面方位角影响
+;   太阳方位角影响
+;   孔隙率影响
+;   等效发射率影响(用以计算"等效温度")
+;*********************************************************************
+Function cot,x
+temp=1.0/tan(x)
+return,temp
+END
+
+Function DBTrow, Alpha_S, Alpha_V, a, h, c, ea, eh, ec, Ta, Th, Tc, Tsh, Tsc
+  PI = IMSL_CONSTANT('pi',/double)
+  S_B = IMSL_CONSTANT('StefanBoltzman',/double)
+  ;情形1：阳光能照射在地面上,凹槽组分为：箱体背光面Chb、地面阴影面Csg、地面光照面Cg、箱体光照面Ch
+  IF (Alpha_S GE 0) AND (Alpha_S LT ATAN(c/h)) THEN BEGIN
+  
+    ;确定各组分大小
+    Ca  = a           ;箱顶
+    Chb = h           ;箱体背光面
+    Csg = Chb*tan(Alpha_S) ;地面阴影面
+    Cg  = c-Csg       ;地面光照面
+    Ch  = h           ;箱体光照面
+    
+    ;确定各组分间角系数
+    Fhb2sg = 0.5*(Chb + Csg - sqrt(Chb^2 + Csg^2))/Chb                    ;箱体背光面组分Chb到地面阴影面组分Csg的角系数
+    Fhb2g  = 0.5*(Cg + sqrt(Chb^2 + Csg^2) - sqrt(Chb^2 + c^2))/Chb       ;箱体背光面组分Chb到地面光照面组分Cg的角系数
+    Fhb2h  = (sqrt(Chb^2 + c^2) - c)/Chb                                  ;箱体背光面组分Chb到箱体光照面组分Ch的角系数
+    
+    Fsg2hb = 0.5*(Chb + Csg - sqrt(Chb^2 + Csg^2))/Csg                    ;地面阴影面组分Csg到箱体背光面组分Chb的角系数
+    Fsg2h  = 0.5*(Csg + sqrt(Ch^2 + Cg^2) - sqrt(Ch^2 + c^2))/Csg         ;地面阴影面组分Csg到箱体光照面组分Ch的角系数
+    Fsg2g  = 0                                                            ;地面阴影面组分Csg到地面光照面组分Cg的角系数
+    
+    Fg2hb  = 0.5*(Cg + sqrt(Chb^2 + Csg^2) - sqrt(Chb^2 + c^2))/Cg        ;地面光照面组分Cg到箱体背光面组分Chb的角系数
+    Fg2h   = 0.5*(Ch + Cg - sqrt(Ch^2 + Cg^2))/Cg                         ;地面光照面组分Cg到箱体光照面组分Ch的角系数
+    Fg2sg  = 0                                                            ;地面光照面组分Cg到地面阴影面组分Csg的角系数
+    
+    Fh2hb  = (sqrt(Chb^2 + c^2) - c)/Ch                                   ;箱体光照面组分Ch到箱体背光面组分Chb的角系数
+    Fh2sg  = 0.5*(Csg + sqrt(Ch^2 + Cg^2) - sqrt(Ch^2 + c^2))/Ch          ;箱体光照面组分Ch到地面阴影面组分Csg的角系数
+    Fh2g   = 0.5*(Ch + Cg - sqrt(Ch^2 + Cg^2))/Ch                         ;箱体光照面组分Ch到地面光照面组分Cg的角系数
+    
+    ;确定各组分有效辐射
+    Ma  = ea*S_B*Ta^4; + (1-ea)*1367*0.8*0.0011*cos(Alpha_S)              ;1367*0.8*0.0011*cos(Alpha_S)为太阳长波辐射（热辐射）                                                     ;箱顶的有效辐射
+    Mhb = eh*S_B*Tsh^4 + (1-eh)*S_B*(eh*Th^4*Fhb2h + ec*Tc^4*Fhb2g + ec*Tsc^4*Fhb2sg); + (1-eh)*1367*0.8*0.0011*sin(Alpha_S)   ;箱体背光面的有效辐射
+    Msg = ec*S_B*Tsc^4 + (1-ec)*S_B*(eh*Th^4*Fsg2h + eh*Tsh^4*Fsg2hb); + (1-ec)*1367*0.8*0.0011*cos(Alpha_S)                   ;地面阴影面的有效辐射
+    Mg  = ec*S_B*Tc^4 + (1-ec)*S_B*(eh*Th^4*Fg2h + eh*Tsh^4*Fg2hb); + (1-ec)*1367*0.8*0.0011*cos(Alpha_S)                      ;地面光照面的有效辐射
+    Mh  = eh*S_B*Th^4 + (1-eh)*S_B*(eh*Tsh^4*Fh2hb + ec*Tc^4*Fh2g + ec*Tsc^4*Fh2sg); + (1-eh)*1367*0.8*0.0011*sin(Alpha_S)     ;箱体光照面的有效辐射
+    
+    ;确定视线方向可视组分
+    ;情形1.1：视线与光线同侧
+    IF (Alpha_V GE 0) THEN BEGIN
+      ;情形1.1.1:视场中有地面组分
+      IF (Alpha_V LT ATAN(c/h)) THEN BEGIN
+        fCa  = Ca*cos(Alpha_V)
+        fChb = 0
+        fCh  = Ch*sin(Alpha_V)
+        IF (Alpha_V LT Alpha_S) THEN BEGIN            ;地面阴影可见
+          fCsg = (Csg-Ch*tan(Alpha_V))*cos(Alpha_V)
+          fCg  = Cg*cos(Alpha_V)
+        ENDIF
+        IF (Alpha_V GE Alpha_S) THEN BEGIN            ;地面阴影不可见
+          fCsg = 0
+          fCg  = (c-Chb*tan(Alpha_V))*cos(Alpha_V)
+        ENDIF
+      ENDIF
+      
+      ;情形1.1.2:视场中无地面组分
+      IF (Alpha_V GE ATAN(c/h)) THEN BEGIN
+        fCa  = Ca*cos(Alpha_V)
+        fChb = 0
+        fCh  = c*cos(Alpha_V)
+        fCsg = 0
+        fCg  = 0
+      ENDIF
+    ENDIF
+    ;情形1.2：视线与光线异侧
+    IF (Alpha_V LT 0) THEN BEGIN
+      ;情形1.2.1:视场中有地面组分
+      IF (abs(Alpha_V) LT ATAN(c/h)) THEN BEGIN
+        fCa  = Ca*cos(Alpha_V)
+        fChb = Chb*sin(abs(Alpha_V))
+        fCh  = 0
+        IF ((c/h)-tan(abs(Alpha_V)) LE tan(Alpha_S)) THEN BEGIN       ;地面光照面不可见
+          fCsg = (c - Chb*tan(abs(Alpha_V)))*cos(Alpha_V)
+          fCg  = 0
+        ENDIF
+        IF ((c/h)-tan(abs(Alpha_V)) GT tan(Alpha_S)) THEN BEGIN       ;地面光照面可见
+          fCsg = Csg*cos(Alpha_V)
+          fCg  = (c - Ch*tan(abs(Alpha_V))-Csg)*cos(Alpha_V)
+        ENDIF
+      ENDIF
+      ;情形1.2.2:视场中无地面组分
+      IF (abs(Alpha_V) GE ATAN(c/h)) THEN BEGIN
+        fCa  = Ca*cos(Alpha_V)
+        fChb = c*cos(Alpha_V)
+        fCh  = 0
+        fCsg = 0
+        fCg  = 0
+      ENDIF
+    ENDIF
+    ffa=fCa/(fCa + fChb + fCh + fCsg + fCg)
+    ffhb=fChb/(fCa + fChb + fCh + fCsg + fCg)
+    ffh=fCh/(fCa + fChb + fCh + fCsg + fCg)
+    ffsg=fCsg/(fCa + fChb + fCh + fCsg + fCg)
+    ffg=fCg/(fCa + fChb + fCh + fCsg + fCg)
+    DBT = (Ma*fCa + Mhb*fChb + Mh*fCh + Msg*fCsg + Mg*fCg)/(fCa + fChb + fCh + fCsg + fCg)
+    
+  ENDIF
+  ;情形2：阳光未能照射在地面上,凹槽组分为：箱体背光面Chb、地面阴影面Csg、箱体阴影面Csh、箱体光照面Ch
+  IF (Alpha_S LE PI/2) AND (Alpha_S GE ATAN(c/h)) THEN BEGIN
+  
+    ;确定各组分大小
+    Ca  = a           ;箱顶
+    Chb = h           ;箱体背光面
+    Csg = c           ;地面阴影面
+    Ch  = c/tan(Alpha_S)   ;箱体光照面
+    Csh = h - Ch      ;箱体阴影面
+    
+    ;确定各组分间角系数
+    Fhb2sg = 0.5*(h + c - sqrt(h^2 + c^2))/h                                              ;箱体背光面组分Chb到地面阴影面组分Csg的角系数
+    Fhb2sh = 0.5*(sqrt(h^2 + c^2) + sqrt(Csh^2 + c^2) - c - sqrt((h - Csh)^2 + c^2))/h    ;箱体背光面组分Chb到箱体阴影面组分Csh的角系数
+    Fhb2h  = 0.5*(sqrt(h^2 + c^2) + sqrt(Ch^2 + c^2) - c - sqrt((h - Ch)^2 + c^2))/h      ;箱体背光面组分Chb到箱体光照面组分Ch的角系数
+    
+    Fsg2hb = 0.5*(h + c - sqrt(h^2 + c^2))/c                                              ;地面阴影面组分Csg到箱体背光面组分Chb的角系数
+    Fsg2sh = 0.5*(Csh + c - sqrt(Csh^2 + c^2))/c                                          ;地面阴影面组分Csg到箱体阴影面组分Csh的角系数
+    Fsg2h  = 0.5*(Ch + sqrt(Csh^2 + c^2) - sqrt(h^2 + c^2))/c                             ;地面阴影面组分Csg到箱体光照面组分Ch的角系数
+    
+    Fsh2hb = 0.5*(sqrt(h^2 + c^2) + sqrt(Csh^2 + c^2) - c - sqrt((h - Csh)^2 + c^2))/Csh  ;箱体阴影面组分Csh到箱体背光面组分Chb的角系数
+    Fsh2sg = 0.5*(Csh + c - sqrt(Csh^2 + c^2))/Csh                                        ;箱体阴影面组分Csh到地面阴影面组分Csg的角系数
+    Fsh2h  = 0                                                                            ;箱体阴影面组分Csh到箱体光照面组分Ch的角系数
+    
+    Fh2hb  = 0.5*(sqrt(h^2 + c^2) + sqrt(Ch^2 + c^2) - c - sqrt((h - Ch)^2 + c^2))/Ch     ;箱体光照面组分Ch到箱体背光面组分Chb的角系数
+    Fh2sg  = 0.5*(Ch + sqrt(Csh^2 + c^2) - sqrt(h^2 + c^2))/Ch                            ;箱体光照面组分Ch到地面阴影面组分Csg的角系数
+    Fh2sh  = 0                                                                            ;箱体光照面组分Ch到箱体阴影面组分Csh的角系数
+    
+    ;确定各组分有效辐射
+    Ma  = ea*S_B*Ta^4;  + (1-ea)*1367*0.8*0.0011*cos(Alpha_S)                                                                    ;箱顶的有效辐射
+    Mhb = eh*S_B*Tsh^4 + (1-eh)*S_B*(ec*Tsc^4*Fhb2sg + eh*Tsh^4*Fhb2sh  + eh*Th^4*Fhb2h); + (1-eh)*1367*0.8*0.0011*sin(Alpha_S)  ;箱体背光面有效辐射
+    Msg = ec*S_B*Tsc^4 + (1-ec)*S_B*(eh*Tsh^4*Fsg2hb + eh*Tsh^4*Fsg2sh  + eh*Th^4*Fsg2h); + (1-ec)*1367*0.8*0.0011*cos(Alpha_S)  ;地面的有效辐射
+    Msh = eh*S_B*Tsh^4 + (1-eh)*S_B*(eh*Tsh^4*Fsh2hb + ec*Tsc^4*Fsh2sg); + (1-eh)*1367*0.8*0.0011*sin(Alpha_S)                   ;箱体阴影面有效辐射
+    Mh  = eh*S_B*Th^4  + (1-eh)*S_B*(eh*Tsh^4*Fh2hb  + ec*Tsc^4*Fh2sg);  + (1-eh)*1367*0.8*0.0011*sin(Alpha_S)                   ;箱体光照面有效辐射
+    
+    ;确定视线方向可视组分
+    ;情形2.1：视线与光线同侧
+    IF (Alpha_V GE 0) THEN BEGIN
+      ;情形2.1.1:视场中有地面组分
+      IF (Alpha_V LT ATAN(c/h)) THEN BEGIN
+        fCa  = Ca*cos(Alpha_V)
+        fChb = 0
+        fCsg = (c - h*tan(Alpha_V))*cos(Alpha_V)
+        fCsh = Csh*sin(Alpha_V)
+        fCh  = Ch*sin(Alpha_V)
+      ENDIF
+      
+      ;情形2.1.2:视场中无地面组分
+      IF (Alpha_V GE ATAN(c/h)) THEN BEGIN
+        fCa  = Ca*cos(Alpha_V)
+        fChb = 0
+        fCsg = 0
+        IF (Alpha_V LT Alpha_S) THEN BEGIN              ;视场中箱体阴影可见
+          fCsh = c*(cot(Alpha_V)-cot(Alpha_S))*sin(Alpha_V)
+          fCh  = Ch*sin(Alpha_V)
+        ENDIF
+        IF (Alpha_V GE Alpha_S) THEN BEGIN              ;视场中箱体阴影不可见
+          fCsh = 0
+          fCh  = c*cos(Alpha_V)
+        ENDIF
+      ENDIF
+    ENDIF
+    ;情形2.2：视线与光线异侧
+    IF (Alpha_V LT 0) THEN BEGIN
+      ;情形2.2.1:视场中有地面组分
+      IF (abs(Alpha_V) LT ATAN(c/h)) THEN BEGIN
+        fCa  = Ca*cos(Alpha_V)
+        fChb = h*sin(abs(Alpha_V))
+        fCsg = (c - h*tan(abs(Alpha_V)))*cos(Alpha_V)
+        fCsh = 0
+        fCh  = 0
+      ENDIF
+      ;情形2.2.2:视场中无地面组分
+      IF (abs(Alpha_V) GE ATAN(c/h)) THEN BEGIN
+        fCa  = Ca*cos(Alpha_V)
+        fChb = c*cos(Alpha_V)
+        fCsg = 0
+        fCsh = 0
+        fCh  = 0
+      ENDIF
+    ENDIF
+    ffa=fCa/(fCa + fChb + fCsg + fCsh +fCh)
+    ffhb=fChb/(fCa + fChb + fCsg + fCsh +fCh)
+    ffsg=fCsg/(fCa + fChb + fCsg + fCsh +fCh)
+    ffsh=fCsh/(fCa + fChb + fCsg + fCsh +fCh)
+    ffch=fCh/(fCa + fChb + fCsg + fCsh +fCh)
+    DBT = (Ma*fCa + Mhb*fChb + Msg*fCsg + Msh*fCsh + Mh*fCh)/(fCa + fChb + fCsg + fCsh +fCh)
+    
+  ENDIF
+  Return, DBT
+End
