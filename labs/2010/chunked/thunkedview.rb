@@ -78,7 +78,6 @@ class ChunkedView
   end
   
   def body_read socket
-    
     if chunked?
       chunck_read socket
       return
@@ -88,7 +87,7 @@ class ChunkedView
       len = length
       str = ""
       if len
-        str = socket.read len        
+        str = socket.read len     
       else
         str = socket.read
       end
@@ -112,9 +111,9 @@ class ChunkedView
         break if len == 0
         #read chunck
         str = socket.read len
+        @chunk << str
         #deflate?
         if deflate?
-          @chunk << str
           i += 1
           @body <<  decompress(@chunk.join(''))
         else
@@ -140,7 +139,7 @@ class ChunkedView
       return buffer
     end
     if ["deflate"].include?(@headers["content-encoding"])
-      zstream = Zlib::Inflate.new
+      zstream = Zlib::Inflate.new(-Zlib::MAX_WBITS)
       str = zstream.inflate(str)
       zstream.finish
       zstream.close
