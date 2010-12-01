@@ -27,7 +27,7 @@ class ChunkedView
     @body = []
     @chunk = []
     uri = URI.parse(url)
-    path = uri.path + (uri.query ? "?" + uri.query : "")
+    path = (uri.path == "" ? "/" : uri.path) + (uri.query ? "?" + uri.query : "")
     
     if head
       request = head
@@ -78,6 +78,7 @@ class ChunkedView
   end
   
   def body_read socket
+    
     if chunked?
       chunck_read socket
       return
@@ -87,7 +88,7 @@ class ChunkedView
       len = length
       str = ""
       if len
-        str = socket.read len     
+        str = socket.read len        
       else
         str = socket.read
       end
@@ -111,9 +112,9 @@ class ChunkedView
         break if len == 0
         #read chunck
         str = socket.read len
-        @chunk << str
         #deflate?
         if deflate?
+          @chunk << @chunk.join('') + str
           i += 1
           @body <<  decompress(@chunk.join(''))
         else

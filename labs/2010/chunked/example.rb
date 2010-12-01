@@ -23,9 +23,10 @@ c.headers.each{|k,v|
 c.body.each{|k|
   #print k
 }
-i = 1
+
 #write chunck to file
+i = 1
 c.chunk.each{|k|
-  #File.open("thunked.#{i}.gz","w"){|f| f.print k}
+  #File.open("chunked.#{i}.gz","wb"){|f| f.print k}
   #i += 1
 }
