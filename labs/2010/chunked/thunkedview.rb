@@ -104,7 +104,6 @@ class ChunkedView
       len = str = nil
       total = 0
       arr = []
-      i = 0
       while true
         str = socket.readline
         #chunck length
@@ -114,9 +113,9 @@ class ChunkedView
         str = socket.read len
         #deflate?
         if deflate?
-          @chunk << @chunk.join('') + str
-          i += 1
-          @body <<  decompress(@chunk.join(''))
+					chunk = @chunk.join('') + str
+          @chunk << chunk
+          @body <<  decompress(chunk)
         else
           arr << str 
           @body <<  arr.join('')
