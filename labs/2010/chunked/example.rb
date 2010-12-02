@@ -1,4 +1,4 @@
-require "thunkedview"
+require "chunkedview"
 
 c = ChunkedView.new
 c.get "http://www.taobao.com/",true
