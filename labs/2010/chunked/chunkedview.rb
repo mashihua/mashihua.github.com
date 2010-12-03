@@ -1,7 +1,16 @@
+# encoding: utf-8
+
 require 'socket'
 require 'uri'
 require 'zlib'
 require 'stringio'
+
+#
+# License:	Under the Ruby license and the GPL2
+#	Author: Shihua Ma
+# Email:	mashihua@gmail.com
+# Web site:	http://www.f2eskills.com
+#
 
 class ChunkedView
   

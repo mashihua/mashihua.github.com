@@ -1,3 +1,4 @@
+# encoding: utf-8
 require "chunkedview"
 
 c = ChunkedView.new
