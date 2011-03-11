@@ -4,15 +4,48 @@
 <title>Test with brower store history when hashchange event fired</title>
 <script>
 
+(function(win){
+	var hashchange = win.onhashchange,
+		change, //for IE
+  		loc = location,
+		hash = loc.hash,
+		delay = 50;
+
+	function gethash(hash){
+		return hash.replace(/^#/,"");
+	}
+	win.onhashchange = function(func){
+			if(hashchange){
+				hashchange = function(){
+					func(gethash(loc.hash));
+				}
+			}else{
+				setTimeout(function change(){
+					if(loc.hash !== hash){
+							func && func(gethash(loc.hash));
+							hash = loc.hash;
+					}
+					setTimeout(change, delay);
+				},delay);
+			}
+	};
+}(window)); 
+
+window.onhashchange(function(hash){
+   //process hash
+   var obj = document.getElementById('result')
+	obj.innerHTML = "window.history.length = "+ hash//window.history.length
+})
+/*
 window.onhashchange = function(){
 	var obj = document.getElementById('result')
 	obj.innerHTML = "window.history.length = "+ window.history.length
 }
-
+*/
 function testSupport(){
-	var i = 1, delay = 25, func ;
+	var i = 1, delay = 500, func ;
 	setTimeout(function func(){
-		location.hash = "test-" + i;
+		location.hash = "!test-" + i;
 		if(i++ < 5){
 			setTimeout(func,delay);
 		}

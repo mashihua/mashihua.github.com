@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--meta http-equiv="Content-Type" content="text/html; charset=utf-8"-->
+<meta charset="utf-8">
+<title>Form test</title>
+</head>
+<body>
+<h4>Search form</h4>
+<form id="s">
+<p><label>Search: <input type=search required autofocus id="q" name="q" placeholder="Type words to search"></label></p>
+</form>
+
+<script>
+    if (!("autofocus" in document.createElement("input"))) {
+      document.getElementById("q").focus();
+    }
+</script>
+
+<h4>Order form</h4>
+
+<form id="p" novalidate="false" autocomplete="off" formnovalidate>
+
+<p><label>E-mail address: <input type=email></label></p>
+
+<p><label>File:<input type="file" accept="image/*" placeholder="Upload your image"></label></p>
+
+<p><label>Preferred delivery date-time: <input type=datetime required></label></p>
+
+<p><label>Preferred delivery datetime-local: <input type=datetime-local required></label></p>
+
+<p><label>Preferred delivery date: <input name=bday type=date min="1979-12-31" max="2010-12-31"></label></p>
+
+<p><label>Preferred delivery month: <input type=month required></label></p>
+
+<p><label>Preferred delivery week: <input type=week required></label></p>
+
+<p><label>Preferred delivery time: <input type=time min="11:00" max="21:00" step="900" required></label></p>
+
+<p><label>Order quantity: <input name=quantity required type=number min=1 value=1></label></p>
+
+<p><label>Range: <input name=range required type=range min=0 max=100 step=20 value=50></label></p>
+
+<p><label>Color: <input name=color required type=color></label></p>
+
+
+<p><label>Delivery instructions: <textarea name="comments" maxlength=1000></textarea></label></p>
+
+<label>Homepage: <input name=hp type=url list=hpurls></label>
+<datalist id=hpurls>
+ <option value="http://www.google.com/" label="Google">
+ <option value="http://www.reddit.com/" label="Reddit">
+</datalist>
+
+<p><label> Part number:<input pattern="[0-9][A-Z]{3}" name="part" title="A part number is a digit followed by three uppercase letters."/></label></p>
+
+<p><button>Submit order</button><p>
+
+</form>
+
+
+
+<h4>Input are out of oorder form</h4>
+<p><label>Telephone: <input form="p" type=tel required></label></p>
+
+
+<h4>Inline element nested Block element</h4>
+<a href="/path/to/resource">
+<h2>Headline text</h2>
+<p>Paragraph text.</p>
+</a>
+
+
+<h4>A meanfull mate-data</h4>
+
+<section class="item">
+<header><h1>header</h1></header>
+<footer class="meta">footer</footer>
+<div class="content">
+content
+</div>
+<nav class="links">nav</nav>
+</section>
+
+
+<video>
+<source src="movie.mp4">
+<source src="movie.ogv">
+<object data="movie.swf">
+	<a href="movie.mp4">download</a>
+</object>
+</video>
+
