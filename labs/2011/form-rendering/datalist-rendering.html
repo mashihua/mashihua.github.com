@@ -2,13 +2,12 @@
 <html>
 <head>
     <title>Form rendering</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+
 </head>
 <body>
 <h2>The safira can't rendering correct</h2>
 <div id="o">
-
-
+<form id=x action="" method="get">
 <input list="browsers">
 
 <datalist id="browsers">
@@ -18,14 +17,11 @@
  <option value="Firefox">
 </datalist>
 
-<form id=x action="" method="get">
+
   <input name="p" value="pp">
   <input type="submit">
 </form>
 
 </div>
-<script>
-$(function(){$(document).submit(function(){alert("1")})})
-</script>
 </body>
 </html>
