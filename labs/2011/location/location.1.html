@@ -55,10 +55,10 @@
 					if(p.setter && p.setter === 'true'){
 						setDomain();
 					}
-					loc = document.location;
+					__location = document.location;
 				try{
-					log(method) ;
-					loc[method];
+					log(method);
+					__location[method];
 				}catch(e){
 					error(method);
 				}

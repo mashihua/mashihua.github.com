@@ -107,7 +107,14 @@
 	</head>
 	<body>
 	<div class="page">
-		<div>Test document.domain = github.com,<a href="./">return index.</a></div>
+		<h1>Test document.location in IE8 and below</h1>
+		<ol>
+			<li>Test <a href="./">set domain = mashihua.github.com, access after setter domain's location</a></li>
+			<li>Test <a href="test.1.html">set domain = github.com , access after setter domain's location</a></li>
+			<li>Test <a href="test.2.html">store the location,set domain = mashihua.github.com, access stored location</a></li>
+			<li><a href="test.3.html">Test store the location,set domain = github.com , access stored location</a></li>		
+		</ol>
+		<div>set domain = github.com , access after setter domain's location</div>
 	<iframe id="iframe" src="about:black" width="500" height="50"></iframe>
 	<div id="error"></div>
 	<div id="pass"></div>
