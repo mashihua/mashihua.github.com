@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>location index</title>
+		<style>
+	    body {
+	      margin: 0;
+	      padding: 0;
+	      background: #e0e0d8;
+	      line-height: 18px;
+	    }
+	    div.page {
+	      margin: 72px auto;
+	      margin: 36px auto;
+	      background: #fff;
+	      border-radius: 18px;
+	      -webkit-box-shadow: 0px 2px 7px #999;
+	      -moz-box-shadow: 0px 2px 7px #999;
+	      padding: 36px 90px;
+	      width: 520px;
+	      position: relative;
+	    }
+	    .big div.page {
+	      width: 720px;
+				margin: 36px 20px;
+				padding:36px 0;
+	    }
+	    h1, h2, p, li {
+	      font-family: Helvetica, sans-serif;
+	      font-size: 13px;
+	    }
+	    h1 {
+	      line-height: 45px;
+	      font-size: 36px;
+	      margin: 0;
+	    }
+	    h1:before {
+	      font-size: 66px;
+	      line-height: 42px;
+	      position: absolute;
+	      right: 576px;
+	    }
+	    .big h1:before {
+	      right: 819px;
+	    }
+	    h1.ok {
+	      color: #060;
+	    }
+	    h1.ok:before {
+	      content: "✓";
+	      color: #090;
+	    }
+	    h1.err {
+	      color: #600;
+	    }
+	    h1.err:before {
+	      content: "✗";
+	      color: #900;
+	    }
+	    h2 {
+	      line-height: 27px;
+	      font-size: 18px;
+	      font-weight: normal;
+	      margin: 0;
+	    }
+	    a, pre span {
+	      color: #776;
+	    }
+	    pre {
+	      white-space: pre-wrap;
+	      font-size: 13px;
+	    }
+	    pre, code {
+	      font-family: Menlo, Monaco, monospace;
+	    }
+	    p code {
+	      font-size: 12px;
+	    }
+	    pre.breakout {
+	      border-top: 1px solid #ddd;
+	      border-bottom: 1px solid #ddd;
+	      background: #fafcf4;
+	      margin-left: -90px;
+	      margin-right: -90px;
+	      padding: 8px 0 8px 90px;
+	    }
+	    pre.small_text {
+	      font-size: 10px;
+	    }
+	    pre.small_text strong {
+	      font-size: 13px;
+	    }
+	    ul {
+	      padding: 0;
+	    }
+	    li {
+	      list-style-type: none;
+	    }
+			#pass{
+				color:#40b31a;
+			}
+			#error{
+				color:#C20023;
+			}
+	  </style>
+	</head>
+	<body>
+	<div class="page">
+	<iframe id="iframe" src="about:black" width="500" height="50"></iframe>
+	<div id="error"></div>
+	<div id="pass"></div>
+	</div>
+		<script type="text/javascript" charset="utf-8">
+			var property = ['hash','host','hostname','href','pathname','port','protocol','search'],
+				methods = ['assign','reload','replace'],
+				iframe = document.getElementById('iframe'),
+				ind = 0 ,
+				setter = false,
+				has_error = false;
+			
+			function $(id){
+				return document.getElementById(id);
+			}
+			
+			function error(){
+				var msg = Array.prototype.join.call(arguments,',')
+				setTimeout(function(){
+					has_error = true;
+					$('error').innerHTML += "<p>Error: " + access() + "[" + msg + "]</p>";
+					iframe.src="about:blank";
+					run();
+				},300);
+			}
+			
+			function log(){
+				var msg = Array.prototype.slice.call(arguments,',');
+				setTimeout(function(){
+					if(has_error){
+						has_error = false;
+						return;
+					}
+					$('pass').innerHTML += "<p>Pass: " + access() + "[" + msg + "]</p>";
+					run();
+				},500);
+			}
+			
+			function access(){
+				return setter ? "Access set domain's location" : "Access none set domain's location";
+			}
+
+			function index(){
+				if(setter && ind === property.length){
+					return;
+				}
+				if(ind < property.length ){
+					return  ind++;
+				}
+				if(!setter){
+					document.domain = 'location.dev';
+					setter = true;
+				}	
+				ind = 0;		
+				return ind++;
+			}
+				
+			function run(){
+				var i = index();
+				if(i === undefined){
+					return;
+				}
+				iframe.src="location.html?index=" + i + "&setter=" + setter;
+			}
+			run();
+		</script>
+	</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>location test</title>
+	</head>
+	<body>
+		<script>
+			var _location,
+				__location,
+				property = ['hash','host','hostname','href','pathname','port','protocol','search'],
+				methods = ['assign','reload','replace'],
+				search = document.location.search;
+			
+			
+			function setDomain(){
+				document.domain = 'github.com';
+			}
+			
+			function log(){
+				parent && parent.log.apply(null,arguments);
+			}
+			
+			function error(){
+				parent && parent.error.apply(null,arguments);
+			}
+			
+			function params(){
+				var parts,
+					pair,
+					params = {};
+				search = search && search.substring(1);
+				if(search){
+					parts = search.split('&');
+					for (var i = 0, len = parts.length; i < len; i++) {
+				    pair = parts[i].split('=', 2);
+				    params[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+				  }
+				}
+				return params;
+			}
+			
+			function index(params){
+				var i = 0;
+				try{
+					i = parseInt(params.index,10);
+					
+				}catch(e){}				
+				return property[i];
+			}
+
+			function run(){
+				var p = params(),
+					method = index(p);
+					if(p.setter && p.setter === 'true'){
+						setDomain();
+					}
+					loc = document.location;
+				try{
+					log(method) ;
+					loc[method];
+				}catch(e){
+					error(method);
+				}
+				
+			}
+			run();
+		</script>
+	</body>
+</html>
