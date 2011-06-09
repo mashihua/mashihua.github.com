@@ -107,7 +107,7 @@
 	</head>
 	<body>
 	<div class="page">
-	<div>Test document.domain = mashihua.github.com,<a href="test.1.html">other test.</a></div>
+		<div>Test document.domain = github.com,<a href="./">return index.</a></div>
 	<iframe id="iframe" src="about:black" width="500" height="50"></iframe>
 	<div id="error"></div>
 	<div id="pass"></div>
@@ -158,7 +158,7 @@
 					return  ind++;
 				}
 				if(!setter){
-					document.domain = 'mashihua.github.com';
+					document.domain = 'github.com';
 					setter = true;
 				}	
 				ind = 0;		
@@ -170,7 +170,7 @@
 				if(i === undefined){
 					return;
 				}
-				iframe.src="location.html?index=" + i + "&setter=" + setter;
+				iframe.src="location.1.html?index=" + i + "&setter=" + setter;
 			}
 			run();
 		</script>
