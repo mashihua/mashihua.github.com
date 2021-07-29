@@ -8,10 +8,25 @@
 
 ## Work experience
 
+### April,2015 - Now
+
+* Company: Beijing Ifcode Co., Ltd.
+* Description: An start-up company
+* Location: Beijing
+* Responsibilities: Buil lot of service to help company successful.
+
+
+### April,2015 - January,2018
+
+* Company: Beijing Gochinatv Cultural Development Co., Ltd.
+* Description: Public company in china market
+* Location: Beijing
+* Responsibilities: Manage Front-End team to build app on most popular TV such as Vizio、Tizen、WebOS、Opera TVS、XBox、Android TV、Fire TV and Apple TV.
+
 ### August,2013 - August,2014
 
 * Company: Royal Game Technology Ltd.
-* Description: Mobile game start-up companies
+* Description: Mobile game start-up company
 * Location: Beijing
 * Responsibilities: Server architecture, Security, Automated deployment, Operations support.
 
@@ -38,6 +53,18 @@
 
 
 ## Project Experience
+
+### June,2016 - January,2018
+
+* Project: TV App
+* Responsibility: Build a cross-platform tv app.
+* Achievements: Our company launch the smart TV app on Vizio、Tizen、WebOS、Opera TVS、XBox、Android TV、Fire TV an Apple tvOS, we need to build cross-platform frameworks and fit it's UI.
+
+### January,2016 - May,2016
+
+* Project: Subtitled Community
+* Responsibility: For captioning community management and technical construction.
+* Achievements: Create the best translation tool for the subtitle translators that help viewers understand the video.
 
 ### August,2013 - August,2014
 
@@ -95,12 +122,11 @@ Responsibility: Development and application of search engine, distributed system
 
 ## Personal links
 * Linkedin: [http://cn.linkedin.com/in/mashihua](http://cn.linkedin.com/in/mashihua)
-* About Me: [http: //about.me/mashihua](http: //about.me/mashihua)
+* About Me: [http: //about.me/mashihua](http://about.me/mashihua)
 * Github: [https://github.com/mashihua](https://github.com/mashihua)
 * Twitter: [https://twitter.com/mashihua](https://twitter.com/mashihua)
 * Weibo: [http://weibo.com/mashihua](http://weibo.com/mashihua)
 
 ## Contact
 * E-Mail: [mashihua@gmail.com](mailto:mashihua@gmail.com)
-* Skype: [shihua.me](skype:shihua.ma?chat)
-* Mobile: [13522713099](tel:13522713099)
+* Mobile: [+88 13522713099](tel:+8613522713099)
