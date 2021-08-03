@@ -1,9 +1,7 @@
 
 ## Summary
 
-* Javascript: since 2004
-* Node.js: sine 2011
-* Linux: since 2009
+Dynamic and creative software developer with over 10 years of experience in producing robust code for high-volume website. Javascript experts since 2004 and develop Node.js application since 2011. Knowledge of some Specification such as ECMA-262、rfc-2616 and rfc-793.
 
 
 ## Work experience
@@ -21,7 +19,8 @@
 * Company: Beijing Gochinatv Cultural Development Co., Ltd.
 * Description: Public company in china market
 * Location: Beijing
-* Responsibilities: Manage Front-End team to build app on most popular TV such as Vizio、Tizen、WebOS、Opera TVS、XBox、Android TV、Fire TV and Apple TV.
+* Responsibilities: Manage Front-End team to build app on most popular TV platform such as Vizio、Tizen、WebOS、Opera TVS、XBox、Android TV、Fire TV and Apple TV.
+
 
 ### August,2013 - August,2014
 
@@ -70,19 +69,19 @@
 
 * Project: Mobile game server architecture
 * Responsibility: Reconstruction game server and user-center architecture.
-* Achievements: Reconstruction of the server architecture. A single point from the previous limit of service can scale to support multiple server services, and make the code clearer. Add unit testing, to make the code more assured. Promote the collection and sorting logs so that we better understand the health of the code in order to make adjustments. Daily business reports, to make our operations more understanding of the user, the operator can adjust the strategy in a timely manner.
+* Achievements: Reconstruction of the server architecture. A single point from the previous limit of service can scale to support multiple server services, and make the code clearer. Add unit testing, to make the code more assured. Promote the collection and sorting logs so that we can understand the health of the code in order to make adjustments. Daily business reports, to make our operations more understanding of the user, the operator can adjust the strategy in a timely manner.
 
 ### October,2012  - December,2012
 
 * Project: Development and Construction infrastructure
 * Responsibility: The establishment of a platform game operators, including: Pass, payment, online real-time customer service and data platforms.
-* Achievements: define various development tools, testing tools and environments. Department responsible for recruiting platform, training and team culture. Pass game development platform.
+* Achievements: Define various development tools, testing tools and environments. Department responsible for recruiting platform, training and team culture. Pass game development platform.
 
 ### September,2010 - August,2012
 
 * Project Name: Website development and maintenance
 * Project Description: Development Company Web site
-* Performance: Performance and front-end development and maintenance is responsible for the site. Responsible for the development of a common front-end API, to make the game on Facebook can smoothly access platform gonline site.
+* Performance: Site performance and front-end development and maintenance is responsible for the site. Responsible for the development of a common front-end API, to make the game on Facebook can smoothly access platform gonline site.
 
 ### September,2010 - August,2011
 
@@ -95,7 +94,7 @@
 * Project: Front-End development team management
 * Description: web front-end team building.
 * Responsibility: Responsible for strengthen the management and team collaboration.
-* Achievements: source control, development and publishing system separation. Development of automated test construction, the company's Javascript library foundation, build the knowledge base of the tip.
+* Achievements: Source control, development and publishing system separation. Development of automated test construction, the company's Javascript library foundation, build the knowledge base of the tip.
 
 ### April,2007 - April,2008
 
